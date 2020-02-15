@@ -30,7 +30,7 @@ class App extends Component {
   // longitude: ${this.state.long},
 
   getFoods() {
-    axios.get('http://localhost:3000/yelp', { params: { lat: this.state.lat, long: this.state.long } })
+    axios.get('/yelp', { params: { lat: this.state.lat, long: this.state.long } })
       .then(foods => {
         console.log(foods)
         var results = [];
@@ -79,7 +79,7 @@ class App extends Component {
   }
 
   getLikes() {
-    axios.get('http://localhost:3000/api/restaurants')
+    axios.get('/api/restaurants')
       .then(liked => this.setState({ liked: liked.data }))
       .catch(err => this.setState({ likesError: err }))
   }
