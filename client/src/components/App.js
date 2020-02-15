@@ -51,6 +51,7 @@ class App extends Component {
   }
 
   getLoc() {
+    /*    // depreciated for http origin sites 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         var lat = parseFloat(position.coords.latitude);
@@ -60,16 +61,20 @@ class App extends Component {
     } else {
       this.setState({ locError: 'geolocation API unavailable' })
     }
+    */
 
-    // getCurrentPosition(
-    //   (position) => {
-    //     var lat = parseFloat(position.coords.latitude);
-    //     var long = parseFloat(position.coords.longitude);
-    //     this.setState({ lat, long, locationSet: true }, this.getFoods)
-    //   },
-    //   (locError) => this.setState({ locError: locError.message }),
-    //   { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-    // );
+    axios({
+      method: 'get',
+      url: 'https://ipapi.co/json/',
+      headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+      .then(res => {
+        this.setState({ lat: res.latitude, long: res.longitude, locationSet: true }, this.getFoods)
+      })
+      .catch(err => {
+        this.setState({ locError: err })
+      })
+
   }
 
   updateHome(bool) {
