@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -d --watch & node server/index.js",
+    "start": "node server/index.js",
+    "dev": "webpack -d --watch & node server/index.js",
     "build": "webpack --mode production"
   },
   "author": "",
