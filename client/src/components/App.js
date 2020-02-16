@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import Tabs from './Tabs';
-import GOAT from './GOAT';
+import Directions from './Directions';
 import Restaurants from './Restaurants';
 import axios from 'axios';
 import styled from 'styled-components';
-
-// import Geoloc from './Geoloc'
 
 class App extends Component {
   constructor(props) {
@@ -25,9 +23,6 @@ class App extends Component {
     this.updateHome = this.updateHome.bind(this);
     this.getLoc = this.getLoc.bind(this);
   }
-
-  // latitude: ${this.state.lat},
-  // longitude: ${this.state.long},
 
   getFoods() {
     axios.get('/yelp', { params: { lat: this.state.lat, long: this.state.long } })
@@ -83,19 +78,14 @@ class App extends Component {
     }
   }
 
-  getLikes() {
-    axios.get('/api/restaurants')
-      .then(liked => this.setState({ liked: liked.data }))
-      .catch(err => this.setState({ likesError: err }))
-  }
-
   componentDidMount() {
-    this.getLikes();
+    // this.getLikes();
   }
 
   render() {
     const search = <SearchContainer>
-      <SearchTitle onClick={this.getLoc}>Hungry</SearchTitle></SearchContainer>;
+      <SearchTitle onClick={this.getLoc}>Hungry!!!</SearchTitle>
+    </SearchContainer>;
 
     const found =
       <FoundContainer>
@@ -108,28 +98,31 @@ class App extends Component {
 
     const homeView = this.state.locationSet ? found : search;
 
-    const likedView = <GOATContainer><GOAT restaurants={this.state.liked} /></GOATContainer>
+    const goView = <GoContainer><Directions /></GoContainer>
 
     return (
       <Body>
-        {this.state.home ? homeView : likedView}
-        <TabsContainer><Tabs updateHome={this.updateHome} home={this.state.home} /></TabsContainer>
+        {this.state.home ? homeView : goView}
+        <TabsContainer>
+          <Tabs updateHome={this.updateHome} home={this.state.home} />
+        </TabsContainer>
       </Body>
     )
   }
 }
 
-const GOATContainer = styled.div`
+const GoContainer = styled.div`
   padding-top: 10%;
   background-color: #9eafc1;
   height: 100%;
 `
 const FoundContainer = styled.div`
-    background-color: #9eafc1;
-    height: 100%;
-    padding-top: 10%;
-    display: flex;
-    flex-direction: column;
+  background-color: #9eafc1;
+  height: 100%;
+  padding-top: 10%;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
     `
 const FoundTitle = styled.h1`
 font-size: 24;
@@ -156,13 +149,28 @@ height: 100%;
 const TabsContainer = styled.div`
 background-color: black;
 z-index: 99;
-height: 30%;
+height: 100px;
+width: inherit;
+flex-direction: row;
+@media (max-width: 600px) {
+  height: 10vh;
+}
 `
 const Body = styled.div`
 display: flex;
-flex-direction: column;
-height: 92%;
+flex-direction: column;  
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
 background-color: slategray;
+
+@media (max-width: 600px) {
+  height: 100vh;
+  width: 100vw;
+}
 `
 
 export default App;
