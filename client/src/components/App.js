@@ -27,12 +27,13 @@ class App extends Component {
   getFoods() {
     axios.get('/yelp', { params: { lat: this.state.lat, long: this.state.long } })
       .then(foods => {
-        console.log(foods)
         var results = [];
         foods.data.data.search.business.map(({ categories, name, id, photos, price, rating, review_count }) => {
           categories = categories.map(({ title }) => title)
           results.push([categories, name, id, photos, price, rating, review_count]);
         })
+        results = results.filter(item => item[5] >= 4)
+        results.sort((a, b) => b[6] - a[6])
         this.setState({
           foods: results,
           foodFetched: true
@@ -123,15 +124,16 @@ const FoundContainer = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  scroll-padding-top: 5vh;
+  scroll-padding-top: em;
   scroll-snap-type: y mandatory;
     `
 const FoundTitle = styled.h1`
-font-size: 55px;
+font-size: 4em;
 font-weight: 600;
 color: black;
 height: 40px;
-margin-bottom: 3em;
+margin-bottom: 2em;
+margin-top: 1.5em;
 text-align: center;
 scroll-snap-align: center;
 `
