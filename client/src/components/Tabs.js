@@ -12,20 +12,16 @@ const FixToText = styled.div`
     // justifyContent: space-around;
   `
 const Script = styled.h1`
-    font-size: 15;
+    font-size: 50px;
     align-self: center;
+    color: ${props => props.selected ? "black" : "grey"}
 `
-const ButtonSelected = styled.button`
-    background-color: lightgrey;
-    width: 100%;
-    height: 100%;
-    display: block;
-  `
 const Button = styled.button`
-    background-color: beige;
+    background-color: ${props => props.selected ? "lightsteelblue" : "whitesmoke"};
     width: 100%;
     height: 100%;
     display: block;
+    font-family: times;
 
   `
 
@@ -34,9 +30,9 @@ export default class Tabs extends Component {
   render() {
     return (
       <FixToText>
-        {this.props.home ? <ButtonSelected onClick={() => this.props.updateHome(true)}><Script>Find</Script></ButtonSelected> : <Button onClick={() => this.props.updateHome(true)}><Script>Find</Script></Button>}
+        {this.props.home ? <Button selected onClick={() => this.props.updateHome(true)}><Script selected>Find</Script></Button> : <Button onClick={() => this.props.updateHome(true)}><Script>Find</Script></Button>}
 
-        {this.props.home ? <Button onClick={() => this.props.updateHome(false)}><Script>Go</Script></Button> : <ButtonSelected onClick={() => this.props.updateHome(false)}><Script>Find</Script></ButtonSelected>}
+        {this.props.home ? <Button onClick={() => this.props.updateHome(false)}><Script>Go</Script></Button> : <Button selected onClick={() => this.props.updateHome(false)}><Script selected>Go</Script></Button>}
 
       </FixToText>
     );

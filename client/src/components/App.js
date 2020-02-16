@@ -84,7 +84,7 @@ class App extends Component {
 
   render() {
     const search = <SearchContainer>
-      <SearchTitle onClick={this.getLoc}>Hungry!!!</SearchTitle>
+      <SearchTitle onClick={this.getLoc}>Hungry</SearchTitle>
     </SearchContainer>;
 
     const found =
@@ -117,26 +117,28 @@ const GoContainer = styled.div`
   height: 100%;
 `
 const FoundContainer = styled.div`
-  background-color: #9eafc1;
+  background-color: ghostwhite;
   height: 100%;
   padding-top: 10%;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: scroll;
+  scroll-padding-top: 5vh;
+  scroll-snap-type: y mandatory;
     `
 const FoundTitle = styled.h1`
-font-size: 24;
+font-size: 55px;
 font-weight: 600;
 color: black;
 height: 40px;
-margin-bottom: 0px;
+margin-bottom: 3em;
 text-align: center;
-background-color: #9eafc1;
+scroll-snap-align: center;
 `
 const SearchTitle = styled.h1`
-font-size: 50px;
+font-size: 100px;
 font-weight: 600;
-padding-top: 300px;
+padding-top: 40vh;
 color: black;
 text-align: center;
 `
@@ -149,7 +151,7 @@ height: 100%;
 const TabsContainer = styled.div`
 background-color: black;
 z-index: 99;
-height: 100px;
+height: 10vh;
 width: inherit;
 flex-direction: row;
 @media (max-width: 600px) {
@@ -165,12 +167,9 @@ left: 0;
 width: 100%;
 height: 100%;
 overflow: auto;
-background-color: slategray;
+background-color: ghostwhite;
+font-family: times;
 
-@media (max-width: 600px) {
-  height: 100vh;
-  width: 100vw;
-}
 `
 
 export default App;

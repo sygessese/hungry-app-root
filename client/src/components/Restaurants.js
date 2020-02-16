@@ -8,18 +8,20 @@ const ListStyle = styled.div`
     justify-content: flex-start;
     width: 100%;
     height: 100%;
-    padding-top: 10%;
-    padding-teft: 5%;
+    align-items: center;
   `
 const ListItem = styled.div`
-  font-size: 15;
-  padding-bottom: 10%;
+  font-size: 45px;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 90%;
+  margin-bottom: 4em;
+  scroll-snap-align: start;
 `
 const Titles = styled.h1`
   color: grey;
+  font-size: 45px;
+  margin-top: 0px;
 `
 
 export default class Restaurants extends Component {
@@ -29,13 +31,13 @@ export default class Restaurants extends Component {
       (this.props.foods).map((restaurant, id) => {
         return <ListItem key={id}>
           <span>
-            {restaurant[4]} {restaurant[1]}, rated {restaurant[5]} by {restaurant[6]}
+            {restaurant[4]} <b>{restaurant[1]}</b>, rated {restaurant[5]} by {restaurant[6]}
           </span>
-          <Titles>{restaurant[0].join(' | ')}</Titles>
           <img
-            style={{ width: '90%', height: '90%' }}
+            style={{ width: '100%', height: '100%' }}
             src={restaurant[3][0]}
           />
+          <Titles>{restaurant[0].join(' | ')}</Titles>
         </ListItem>
       });
 
