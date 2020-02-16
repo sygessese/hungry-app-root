@@ -15,7 +15,7 @@ const ListItem = styled.div`
   font-size: 2em;
   display: flex;
   flex-direction: column;
-  width: 90%;
+  width: 85%;
   margin-bottom: 5em;
   scroll-snap-stop: always;
   position: sticky;
@@ -24,11 +24,11 @@ const ListItem = styled.div`
   scroll-snap-align: start;
   background-color: ghostwhite;
 `
-const Titles = styled.h1`
+const Titles = styled.div`
   color: ${props => props.footer ? "grey" : "chocolate"};
-  font-size: ${props => props.footer ? "1.5em" : "2em"};
+  font-size: ${props => props.footer ? "1.5em" : "1.7em"};
   line-height: ${props => props.footer ? "1.5em" : "1em"};
-  margin-bottom: ${props => props.footer ? "8em" : "0em"};
+  margin-bottom: ${props => props.margin ? "8em" : "0em"};
   font-weight: 400;
     `
 
@@ -39,13 +39,16 @@ export default class Restaurants extends Component {
       (this.props.foods).map((restaurant, id) => {
         return <ListItem key={id}>
           <Titles>
-            {restaurant[4]} <b>{restaurant[1]}</b>rated {restaurant[5]} by {restaurant[6]}
+            {restaurant[4]} <b>{restaurant[1]}</b>
+          </Titles>
+          <Titles footer>
+            {restaurant[5]}/5 by {restaurant[6]} foodies
           </Titles>
           <img
             style={{ width: '100%', height: '100%' }}
             src={restaurant[3][0]}
           />
-          <Titles footer>{restaurant[0].join(' | ')}</Titles>
+          <Titles footer margin>{restaurant[0].join(' | ')}</Titles>
         </ListItem>
       });
 

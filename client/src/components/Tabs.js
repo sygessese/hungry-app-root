@@ -12,7 +12,7 @@ const FixToText = styled.div`
     // justifyContent: space-around;
   `
 const Script = styled.h1`
-    font-size: 50px;
+    font-size: 2.2em;
     align-self: center;
     color: ${props => props.selected ? "black" : "grey"}
 `

@@ -153,11 +153,11 @@ height: 100%;
 const TabsContainer = styled.div`
 background-color: black;
 z-index: 99;
-height: 10vh;
+height: 5vh;
 width: inherit;
 flex-direction: row;
 @media (max-width: 600px) {
-  height: 10vh;
+  height: 5vh;
 }
 `
 const Body = styled.div`
