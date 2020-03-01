@@ -19,18 +19,23 @@ class App extends Component {
       foodsError: '',
       liked: '',
       likedError: '',
+      restaurantName: '',
+      restaurantCoords: [],
     };
     this.updateHome = this.updateHome.bind(this);
     this.getLoc = this.getLoc.bind(this);
+    this.restaurantSelected = this.restaurantSelected.bind(this)
   }
 
   getFoods() {
     axios.get('/yelp', { params: { lat: this.state.lat, long: this.state.long } })
       .then(foods => {
         var results = [];
-        foods.data.data.search.business.map(({ categories, name, id, photos, price, rating, review_count }) => {
+        foods.data.data.search.business.map(({ categories, name, id, photos, price, rating, review_count, coordinates }) => {
           categories = categories.map(({ title }) => title)
-          results.push([categories, name, id, photos, price, rating, review_count]);
+          var lat = coordinates.latitude;
+          var long = coordinates.longitude;
+          results.push([categories, name, id, photos, price, rating, review_count, lat, long]);
         })
         results = results.filter(item => item[5] >= 4)
         results.sort((a, b) => b[6] - a[6])
@@ -47,30 +52,17 @@ class App extends Component {
   }
 
   getLoc() {
-    /*    // depreciated for http origin sites 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        var lat = parseFloat(position.coords.latitude);
-        var long = parseFloat(position.coords.longitude);
-        this.setState({ lat, long, locationSet: true }, this.getFoods)
-      })
-    } else {
-      this.setState({ locError: 'geolocation API unavailable' })
-    }
-    */
-
     axios({
       method: 'get',
       url: 'https://ipapi.co/json/',
       headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
       .then(res => {
-        this.setState({ lat: res.latitude, long: res.longitude, locationSet: true }, this.getFoods)
+        this.setState({ lat: res.data.latitude, long: res.longitude, locationSet: true }, this.getFoods)
       })
       .catch(err => {
         this.setState({ locError: err })
       })
-
   }
 
   updateHome(bool) {
@@ -79,34 +71,44 @@ class App extends Component {
     }
   }
 
+  restaurantSelected(name, coords) {
+    // restaurant has been selected
+    // update state with coordinates
+    this.setState({ restaurantName: name, restaurantCoords: coords }, () => this.updateHome(false))
+    // change tab to maps, loaded with coords
+  }
+
   componentDidMount() {
-    // this.getLikes();
+    setTimeout(() => {
+      this.getLoc();
+    }, 300);
+
   }
 
   render() {
     const search = <SearchContainer>
-      <SearchTitle onClick={this.getLoc}>Hungry</SearchTitle>
+      <SearchTitle>Hungry</SearchTitle>
     </SearchContainer>;
 
     const found =
       <FoundContainer>
         <FoundTitle>Hungry</FoundTitle>
         {this.state.foodFetched ?
-          <div><Restaurants foods={this.state.foods} /></div> :
+          <div><Restaurants foods={this.state.foods} select={this.restaurantSelected} /></div> :
           <h6>{this.state.foodsError}</h6>}
       </FoundContainer>
       ;
 
     const homeView = this.state.locationSet ? found : search;
 
-    const goView = <GoContainer><Directions /></GoContainer>
+    const goView = <GoContainer><Directions origin={[this.state.lat, this.state.long]} destination={this.state.restaurantCoords} resturantName={this.state.restaurantName} /></GoContainer>
 
     return (
       <Body>
         {this.state.home ? homeView : goView}
-        <TabsContainer>
+        {/* <TabsContainer>
           <Tabs updateHome={this.updateHome} home={this.state.home} />
-        </TabsContainer>
+        </TabsContainer> */}
       </Body>
     )
   }
@@ -132,10 +134,13 @@ font-size: 4em;
 font-weight: 600;
 color: black;
 height: 40px;
-margin-bottom: 2em;
-margin-top: 1.5em;
+padding-bottom: 2em;
+padding-top: 1.5em;
 text-align: center;
 scroll-snap-align: center;
+z-index: 99;
+background-color: white;
+margin-top: 0;
 `
 const SearchTitle = styled.h1`
 font-size: 100px;
