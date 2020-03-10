@@ -1,4 +1,2 @@
 node_modules
 package-lock.json
-server/yelpAPI.js
-client/src/components/googleAPI.js

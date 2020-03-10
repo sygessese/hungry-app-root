@@ -1,17 +1,16 @@
 /* eslint-disable react/prop-types */
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import googleAPI from './googleAPI'
+import React, { Component } from "react";
+import styled from "styled-components";
+import googleAPI from "./googleAPI";
 
 const placeHolderOrigin = [47.611981, -122.345618];
-
 
 const { compose, withProps, lifecycle } = require("recompose");
 const {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
-  DirectionsRenderer,
+  DirectionsRenderer
 } = require("react-google-maps");
 
 const MapWithADirectionsRenderer = compose(
@@ -19,7 +18,7 @@ const MapWithADirectionsRenderer = compose(
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${googleAPI}&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `400px` }} />,
-    mapElement: <div style={{ height: `100%` }} />,
+    mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,
   withGoogleMap,
@@ -27,35 +26,40 @@ const MapWithADirectionsRenderer = compose(
     componentDidMount() {
       const DirectionsService = new google.maps.DirectionsService();
 
-      DirectionsService.route({
-        origin: new google.maps.LatLng(...this.props.origin),
-        destination: new google.maps.LatLng(...this.props.destination),
-        travelMode: google.maps.TravelMode.WALKING,
-      }, (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
-          this.setState({
-            directions: result,
-          });
-        } else {
-          console.error(`error fetching directions ${result}`);
+      DirectionsService.route(
+        {
+          origin: new google.maps.LatLng(...this.props.origin),
+          destination: new google.maps.LatLng(...this.props.destination),
+          travelMode: google.maps.TravelMode.WALKING
+        },
+        (result, status) => {
+          if (status === google.maps.DirectionsStatus.OK) {
+            this.setState({
+              directions: result
+            });
+          } else {
+            console.error(`error fetching directions ${result}`);
+          }
         }
-      });
+      );
     }
   })
-)(props =>
+)(props => (
   <GoogleMap
     defaultZoom={7}
-    defaultCenter={new google.maps.LatLng(41.8507300, -87.6512600)}
+    defaultCenter={new google.maps.LatLng(41.85073, -87.65126)}
   >
     {props.directions && <DirectionsRenderer directions={props.directions} />}
   </GoogleMap>
-);
-
+));
 
 export default class Directions extends Component {
   render() {
     return (
-      <MapWithADirectionsRenderer origin={this.props.origin} destination={this.props.destination} />
+      <MapWithADirectionsRenderer
+        origin={this.props.origin}
+        destination={this.props.destination}
+      />
     );
   }
 }
