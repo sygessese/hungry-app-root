@@ -25,6 +25,7 @@ class App extends Component {
     this.updateHome = this.updateHome.bind(this);
     this.getLoc = this.getLoc.bind(this);
     this.restaurantSelected = this.restaurantSelected.bind(this)
+    this.setLocation = this.setLocation.bind(this)
   }
 
   getFoods() {
@@ -58,7 +59,7 @@ class App extends Component {
       headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
       .then(res => {
-        this.setState({ lat: res.data.latitude, long: res.longitude, locationSet: true }, this.getFoods)
+        this.setState({ lat: res.data.latitude, long: res.data.longitude, locationSet: true }, this.getFoods)
       })
       .catch(err => {
         this.setState({ locError: err })
@@ -78,11 +79,21 @@ class App extends Component {
     // change tab to maps, loaded with coords
   }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.getLoc();
-    }, 300);
+  setLocation(lat,long) {
+    this.setState({ lat, long, locationSet: true }, this.getFoods)
+  }
 
+  componentDidMount() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        this.setLocation(position.coords.latitude, position.coords.longitude)
+      }.bind(this), function(error) {
+        console.error("Error Code = " + error.code + " - " + error.message);
+        this.getLoc()
+      }.bind(this));
+    } else {
+      this.getLoc();
+    }
   }
 
   render() {

@@ -6,6 +6,7 @@ import googleAPI from "./googleAPI";
 const placeHolderOrigin = [47.611981, -122.345618];
 
 const { compose, withProps, lifecycle } = require("recompose");
+
 const {
   withScriptjs,
   withGoogleMap,
@@ -17,7 +18,7 @@ const MapWithADirectionsRenderer = compose(
   withProps({
     googleMapURL: `https://maps.googleapis.com/maps/api/js?key=${googleAPI}&v=3.exp&libraries=geometry,drawing,places`,
     loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px` }} />,
+    containerElement: <div style={{ height: `90%` }} />,
     mapElement: <div style={{ height: `100%` }} />
   }),
   withScriptjs,
@@ -30,6 +31,8 @@ const MapWithADirectionsRenderer = compose(
         {
           origin: new google.maps.LatLng(...this.props.origin),
           destination: new google.maps.LatLng(...this.props.destination),
+          // origin: new google.maps.LatLng(41.8507300, -87.6512600),
+          // destination: new google.maps.LatLng(41.8525800, -87.6514100),
           travelMode: google.maps.TravelMode.WALKING
         },
         (result, status) => {
