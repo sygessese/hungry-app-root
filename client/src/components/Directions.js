@@ -1,9 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from "react";
-import styled from "styled-components";
 import googleAPI from "./googleAPI";
-
-const placeHolderOrigin = [47.611981, -122.345618];
 
 const { compose, withProps, lifecycle } = require("recompose");
 
@@ -31,8 +28,6 @@ const MapWithADirectionsRenderer = compose(
         {
           origin: new google.maps.LatLng(...this.props.origin),
           destination: new google.maps.LatLng(...this.props.destination),
-          // origin: new google.maps.LatLng(41.8507300, -87.6512600),
-          // destination: new google.maps.LatLng(41.8525800, -87.6514100),
           travelMode: google.maps.TravelMode.WALKING
         },
         (result, status) => {
@@ -48,21 +43,13 @@ const MapWithADirectionsRenderer = compose(
     }
   })
 )(props => (
-  <GoogleMap
-    defaultZoom={7}
-    defaultCenter={new google.maps.LatLng(41.85073, -87.65126)}
-  >
+  <GoogleMap defaultZoom={13} defaultCenter={new google.maps.LatLng(...props.origin)}>
     {props.directions && <DirectionsRenderer directions={props.directions} />}
   </GoogleMap>
 ));
 
 export default class Directions extends Component {
   render() {
-    return (
-      <MapWithADirectionsRenderer
-        origin={this.props.origin}
-        destination={this.props.destination}
-      />
-    );
+    return <MapWithADirectionsRenderer origin={this.props.origin} destination={this.props.destination} />;
   }
 }
