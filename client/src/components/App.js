@@ -4,6 +4,7 @@ import Directions from './Directions';
 import Restaurants from './Restaurants';
 import axios from 'axios';
 import styled from 'styled-components';
+import ClipLoader from "react-spinners/ClipLoader";
 
 class App extends Component {
   constructor(props) {
@@ -26,6 +27,8 @@ class App extends Component {
     this.getLoc = this.getLoc.bind(this);
     this.restaurantSelected = this.restaurantSelected.bind(this)
     this.setLocation = this.setLocation.bind(this)
+    this.geoError = this.geoError.bind(this)
+    this.geoSuccess = this.geoSuccess.bind(this)
   }
 
   getFoods() {
@@ -73,8 +76,6 @@ class App extends Component {
   }
 
   restaurantSelected(name, coords) {
-    // restaurant has been selected
-    // update state with coordinates
     this.setState({ restaurantName: name, restaurantCoords: coords }, () => this.updateHome(false))
     // change tab to maps, loaded with coords
   }
@@ -83,14 +84,20 @@ class App extends Component {
     this.setState({ lat, long, locationSet: true }, this.getFoods)
   }
 
+  geoSuccess(position) {
+    this.setLocation(position.coords.latitude, position.coords.longitude)
+  }
+
+  geoError(error) {
+    this.getLoc()
+  }
+
   componentDidMount() {
     if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function(position) {
-        this.setLocation(position.coords.latitude, position.coords.longitude)
-      }.bind(this), function(error) {
-        console.error("Error Code = " + error.code + " - " + error.message);
-        this.getLoc()
-      }.bind(this));
+      navigator.geolocation.watchPosition(this.geoSuccess, this.geoError, {
+        enableHighAccuracy: true, 
+        timeout: 5000
+      });
     } else {
       this.getLoc();
     }
@@ -98,7 +105,12 @@ class App extends Component {
 
   render() {
     const search = <SearchContainer>
-      <SearchTitle>Hungry</SearchTitle>
+      <SearchTitle>
+        Hungry &emsp;   
+        <ClipLoader
+          size={50}
+          color={"000000"}
+        /></SearchTitle>
     </SearchContainer>;
 
     const found =
@@ -117,9 +129,9 @@ class App extends Component {
     return (
       <Body>
         {this.state.home ? homeView : goView}
-        {/* <TabsContainer>
+        <TabsContainer>
           <Tabs updateHome={this.updateHome} home={this.state.home} />
-        </TabsContainer> */}
+        </TabsContainer>
       </Body>
     )
   }
@@ -187,7 +199,6 @@ height: 100%;
 overflow: auto;
 background-color: ghostwhite;
 font-family: times;
-
 `
 
 export default App;
