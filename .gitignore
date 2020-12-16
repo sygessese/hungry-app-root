@@ -1,5 +1,5 @@
 node_modules
 package-lock.json
-server/yelpAPI.js
-client/src/components/googleAPI.js
-client/dist/bundle.js
+# server/yelpAPI.js
+# client/src/components/googleAPI.js
+# client/dist/bundle.js
