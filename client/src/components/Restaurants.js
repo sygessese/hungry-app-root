@@ -4,17 +4,18 @@ import styled from 'styled-components';
 
 class Restaurants extends Component {
   render() {
-    var list = this.props.foods.length === 0 ? 'empty' :
-      (this.props.foods).map(([descriptions, name, key, photo, price, rating, reviewers, lat, long ]) => {
-        return <ListItem key={key}>
-          <Titles>{price} <b>{name}</b></Titles>
-          <Titles footer>{rating}/5 by {reviewers} foodies</Titles>
-          <img style={{ width: '100%', height: '100%' }} src={photo[0]} />
-          <Titles footer margin>
-            <Go onClick={() => this.props.select(name, [lat, long])}>select</Go>
-            <div>{descriptions.join(' | ')}</div>
-          </Titles>
-        </ListItem>
+    var list = this.props.foods.length === 0 ? 
+        'empty' :
+        (this.props.foods).map(([categories, name, key, photo, price, rating, reviewers, lat, long ]) => {
+          return <ListItem key={key}>
+                  <Titles>{price} <b>{name}</b></Titles>
+                  <Titles footer>{rating}/5 by {reviewers} foodies</Titles>
+                  <img style={{ width: '100%', height: '100%' }} src={photo[0]} />
+                  <Titles footer margin>
+                    <Go onClick={() => this.props.select(name, [lat, long])}>select</Go>
+                    <div>{categories.join(' | ')}</div>
+                  </Titles>
+                </ListItem>
       });
 
     return (
