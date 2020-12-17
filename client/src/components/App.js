@@ -46,8 +46,6 @@ class App extends Component {
         })
       })
       .catch(foodsError => {
-        console.log('oops')
-        console.log(foodsError)
         this.setState({ foodsError })
       })
   }
