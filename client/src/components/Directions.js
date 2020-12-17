@@ -36,7 +36,7 @@ const MapWithADirectionsRenderer = compose(
               directions: result
             });
           } else {
-            console.error(`error fetching directions ${result}`);
+            alert(`error fetching directions ${result}`);
           }
         }
       );
