@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Tabs from './Tabs';
 import Directions from './Directions';
 import Restaurants from './Restaurants';
 import axios from 'axios';
@@ -76,7 +75,6 @@ class App extends Component {
 
   restaurantSelected(name, coords) {
     this.setState({ restaurantName: name, restaurantCoords: coords }, () => this.updateHome(false))
-    // change tab to maps, loaded with coords
   }
 
   setLocation(lat,long) {
@@ -131,9 +129,6 @@ class App extends Component {
     return (
       <Body>
         {this.state.home ? homeView : goView}
-        {/* <TabsContainer>
-          <Tabs updateHome={this.updateHome} home={this.state.home} />
-        </TabsContainer> */}
       </Body>
     )
   }
@@ -142,6 +137,7 @@ class App extends Component {
 const GoContainer = styled.div`
   height: 100%;
 `
+
 const FoundContainer = styled.div`
   background-color: ghostwhite;
   height: 100%;
@@ -151,54 +147,48 @@ const FoundContainer = styled.div`
   overflow-y: scroll;
   scroll-padding-top: em;
   scroll-snap-type: y mandatory;
-    `
+`
+
 const FoundTitle = styled.h1`
-font-size: 4em;
-font-weight: 600;
-color: black;
-height: 40px;
-padding-bottom: 2em;
-padding-top: 1.5em;
-text-align: center;
-scroll-snap-align: center;
-z-index: 99;
-background-color: white;
-margin-top: 0;
+  font-size: 4em;
+  font-weight: 600;
+  color: black;
+  height: 40px;
+  padding-bottom: 2em;
+  padding-top: 1.5em;
+  text-align: center;
+  scroll-snap-align: center;
+  z-index: 99;
+  background-color: white;
+  margin-top: 0;
 `
+
 const SearchTitle = styled.h1`
-font-size: ${props => props.directions ? "50px" : "100px"};
-font-weight: 600;
-padding-top: ${props => props.directions ? "0px" : "40vh"};
-color: ${props => props.directions ? "darkslategrey" : "black"};
-text-align: center;
+  font-size: ${props => props.directions ? "50px" : "100px"};
+  font-weight: 600;
+  padding-top: ${props => props.directions ? "0px" : "40vh"};
+  color: ${props => props.directions ? "darkslategrey" : "black"};
+  text-align: center;
 `
+
 const SearchContainer = styled.div`
-font-size: 18;
-font-weight: 600;
-color: darkgrey;
-height: 100%;
+  font-size: 18;
+  font-weight: 600;
+  color: darkgrey;
+  height: 100%;
 `
-const TabsContainer = styled.div`
-background-color: black;
-z-index: 99;
-height: 5vh;
-width: inherit;
-flex-direction: row;
-@media (max-width: 600px) {
-  height: 5vh;
-}
-`
+
 const Body = styled.div`
-display: flex;
-flex-direction: column;  
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-overflow: auto;
-background-color: ghostwhite;
-font-family: times;
+  display: flex;
+  flex-direction: column;  
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: ghostwhite;
+  font-family: times;
 `
 
 export default App;

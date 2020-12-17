@@ -35,10 +35,8 @@ app.get('/yelp', (req, res) => {
   opt.body = dataString(req.query.lat, req.query.long)
   request(opt, (error, response, body) => {
     if (error) {
-      console.log(error)
       res.sendStatus(500)
     }
-    console.log(body)
     res.send(body)
   })
 })
