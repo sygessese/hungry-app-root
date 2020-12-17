@@ -16,7 +16,7 @@ var headers = {
 };
 
 var dataString = function (lat, long) {
-  return `{ search( term:"food", latitude: ${47.611981}, longitude: ${-122.345618}, open_now: true, limit: 10 ) { business { name rating review_count photos id categories { title } price  coordinates {
+  return `{ search( term:"food", latitude: ${lat}, longitude: ${long}, open_now: true, limit: 10 ) { business { name rating review_count photos id categories { title } price  coordinates {
     latitude
     longitude
   }} }}`;

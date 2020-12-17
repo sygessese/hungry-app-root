@@ -18,8 +18,6 @@ class App extends Component {
       locError: '',
       foods: [],
       foodsError: '',
-      liked: '',
-      likedError: '',
       restaurantName: '',
       restaurantCoords: [],
     };
@@ -58,6 +56,7 @@ class App extends Component {
   getLoc() {
     axios({
       method: 'get',
+      mode: 'cors',
       url: 'https://ipapi.co/json/',
       headers: { 'X-Requested-With': 'XMLHttpRequest' }
     })
@@ -106,7 +105,7 @@ class App extends Component {
   render() {
     const search = <SearchContainer>
       <SearchTitle>
-        Hungry &emsp;   
+        Hungry? &ensp;   
         <ClipLoader
           size={50}
           color={"000000"}
@@ -115,7 +114,7 @@ class App extends Component {
 
     const found =
       <FoundContainer>
-        <FoundTitle>Hungry</FoundTitle>
+        <FoundTitle>fuuud (◕‿◕)</FoundTitle>
         {this.state.foodFetched ?
           <div><Restaurants foods={this.state.foods} select={this.restaurantSelected} /></div> :
           <h6>{this.state.foodsError}</h6>}
@@ -124,22 +123,23 @@ class App extends Component {
 
     const homeView = this.state.locationSet ? found : search;
 
-    const goView = <GoContainer><Directions origin={[this.state.lat, this.state.long]} destination={this.state.restaurantCoords} resturantName={this.state.restaurantName} /></GoContainer>
+    const goView = <GoContainer>
+        <Directions origin={[this.state.lat, this.state.long]} destination={this.state.restaurantCoords} resturantName={this.state.restaurantName} />
+        <SearchTitle directions>To: {this.state.restaurantName}</SearchTitle>
+        </GoContainer>
 
     return (
       <Body>
         {this.state.home ? homeView : goView}
-        <TabsContainer>
+        {/* <TabsContainer>
           <Tabs updateHome={this.updateHome} home={this.state.home} />
-        </TabsContainer>
+        </TabsContainer> */}
       </Body>
     )
   }
 }
 
 const GoContainer = styled.div`
-  padding-top: 10%;
-  background-color: #9eafc1;
   height: 100%;
 `
 const FoundContainer = styled.div`
@@ -166,10 +166,10 @@ background-color: white;
 margin-top: 0;
 `
 const SearchTitle = styled.h1`
-font-size: 100px;
+font-size: ${props => props.directions ? "50px" : "100px"};
 font-weight: 600;
-padding-top: 40vh;
-color: black;
+padding-top: ${props => props.directions ? "0px" : "40vh"};
+color: ${props => props.directions ? "darkslategrey" : "black"};
 text-align: center;
 `
 const SearchContainer = styled.div`
