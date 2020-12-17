@@ -22,6 +22,7 @@ const ListItem = styled.div`
   scroll-snap-align: start;
   background-color: ghostwhite;
   scroll-margin: 5vh;
+  margin-top: 5vh;
 `
 const Titles = styled.div`
   color: ${props => props.footer ? "grey" : "chocolate"};
